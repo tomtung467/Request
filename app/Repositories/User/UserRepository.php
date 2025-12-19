@@ -10,6 +10,6 @@ class UserRepository extends BaseRepository implements IUserRepository
 {
     public function __construct(User $model)
     {
-        $this->model = $model;
+        parent::__construct($model);
     }
 }

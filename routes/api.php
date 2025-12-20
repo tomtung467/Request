@@ -14,9 +14,19 @@ Route::group([
     route::post('logout', [App\Http\Controllers\AuthController::class, 'logout']);
     route::post('refresh', [App\Http\Controllers\AuthController::class, 'refresh']);
     route::get('profile', [App\Http\Controllers\AuthController::class, 'profile']);
-    route::get('', [App\Http\Controllers\API\UserController::class, 'get']);
-    route::post('', [App\Http\Controllers\API\UserController::class, 'create']);
-    route::get('{id}', [App\Http\Controllers\API\UserController::class, 'detail']);
-    route::put('{id}', [App\Http\Controllers\API\UserController::class, 'update']);
-    route::delete('{id}', [App\Http\Controllers\API\UserController::class, 'delete']);
+    route::group(['prefix' => 'users'], function () {
+        route::get('', [App\Http\Controllers\API\UserController::class, 'get']);
+        route::post('', [App\Http\Controllers\API\UserController::class, 'create']);
+        route::get('{id}', [App\Http\Controllers\API\UserController::class, 'detail']);
+        route::put('{id}', [App\Http\Controllers\API\UserController::class, 'update']);
+        route::delete('{id}', [App\Http\Controllers\API\UserController::class, 'delete']);
+    });
+    route::group(['prefix' => 'leave-requests'], function () {
+        route::get('', [App\Http\Controllers\API\LeaveRequestController::class, 'get']);
+        route::post('', [App\Http\Controllers\API\LeaveRequestController::class, 'create']);
+        route::get('{id}', [App\Http\Controllers\API\LeaveRequestController::class, 'detail']);
+        route::put('{id}', [App\Http\Controllers\API\LeaveRequestController::class, 'update']);
+        route::delete('{id}', [App\Http\Controllers\API\LeaveRequestController::class, 'delete']);
+    });
+
 });

@@ -25,8 +25,8 @@ class LeaveRequestController extends BaseAPIController
     }
     public function create(CreateLeaveRequest $request)
     {
-        $data = $request->all();
-        $leaveRequest = $this->leaveRequestService->create($data);
+        $validated = $request->validated();
+        $leaveRequest = $this->leaveRequestService->create($validated);
         return $this->successResponse($leaveRequest, 201);
     }
     public function detail($id)
@@ -40,8 +40,8 @@ class LeaveRequestController extends BaseAPIController
     }
     public function update(UpdateLeaveRequest $request, $id)
     {
-        $data = $request->all();
-        $leaveRequest = $this->leaveRequestService->update($id, $data);
+        $validated = $request->validated();
+        $leaveRequest = $this->leaveRequestService->update($id, $validated);
         if ($leaveRequest) {
             return $this->successResponse($leaveRequest);
         } else {
@@ -57,6 +57,4 @@ class LeaveRequestController extends BaseAPIController
             return $this->errorResponse('Leave Request not found', 404);
         }
     }
-
-    // Define your API methods here
 }

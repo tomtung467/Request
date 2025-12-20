@@ -9,6 +9,13 @@ abstract class BaseRepository implements IBaseRepository
     {
         $this->model = $model;
     }
+    public function getModel(){}
+
+    public function setModel()
+    {
+        $model = app()->make($this->getModel());
+        $this->model = $model;
+    }
 
     public function all()
     {

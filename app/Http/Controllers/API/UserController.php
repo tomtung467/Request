@@ -15,6 +15,7 @@ class UserController extends BaseAPIController
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
+        $this->middleware('auth:api');
     }
     public function get()
     {
@@ -43,7 +44,7 @@ class UserController extends BaseAPIController
     }
     public function update($id, UpdateUserRequest $request)
     {
-        $validated = $request->validated();
+        $validated = $request->all();
         $validated['password'] = bcrypt($validated['password']);
         $updatedUser = $this->userService->update($id, $validated);
         if ($updatedUser) {
@@ -55,10 +56,6 @@ class UserController extends BaseAPIController
     public function delete($id)
     {
         $result = $this->userService->delete($id);
-        if ($result) {
-            return $this->successResponse(null, "User deleted successfully.");
-        } else {
-            return $this->errorResponse(['message' => 'User not found'], 404);
-        }
+            return $this->successResponse(null, "User deleted successfully.",200);
     }
 }

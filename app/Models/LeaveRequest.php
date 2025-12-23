@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Enums\LeaveApplicationStatus;
 
 class LeaveRequest extends Model
 {
-    //
+    //\
+    use softDeletes;
     protected $table = 'leave_request';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -23,6 +26,7 @@ class LeaveRequest extends Model
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'status' => LeaveApplicationStatus::class,
     ];
     public function user()
     {

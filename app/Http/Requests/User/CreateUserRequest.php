@@ -16,9 +16,9 @@ class CreateUserRequest extends BaseRequest
             'password' => 'required|string|min:8|confirmed',
         ];
     }
-    public function after()
+    public function after(): array
     {
-        //
+        return [];
     }
     public function messages()
     {
@@ -35,6 +35,8 @@ class CreateUserRequest extends BaseRequest
 
     public function prepareForValidation()
     {
-        //
+        $this->merge([
+            'email' => strtolower($this->email),
+        ]);
     }
 }

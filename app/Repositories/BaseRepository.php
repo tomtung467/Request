@@ -21,8 +21,7 @@ abstract class BaseRepository implements IBaseRepository
     {
         return $this->model->with($with)->get();
     }
-
-    public function allWithFilter($filter, array $with = [])
+     public function allWithFilter($filter, array $with = [])
     {
         return $this->model->with($with)->filter($filter)->get();
     }

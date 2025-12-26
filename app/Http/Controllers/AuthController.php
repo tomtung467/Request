@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\CreateUserRequest;
 use App\Models\User;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Auth;
@@ -11,10 +12,18 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AuthController extends BaseAPIController
 {
     protected $userService;
-    public function __construct(UserService $userService)
+        public function __construct(UserService $userService)
     {
         $this->userService = $userService;
         $this->middleware('auth:api', ['except' => ['login','refresh']]);
+    }
+    public function register(CreateUserRequest $request)
+    {
+        $data = $request->validated();
+        $data['password'] = bcrypt($data['password']);
+        $user = $this->userService->create($data);
+
+        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }
     public function login()
     {

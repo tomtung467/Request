@@ -41,18 +41,12 @@ class UserController extends BaseAPIController
     public function create(CreateUserRequest $request)
     {
         $validated = $request->validated();
-        $validated['password'] = bcrypt($validated['password']);
-            $user = $this->userService->create($validated);
-        if ($user) {
-            return $this-> successResponse($user, 201);
-        } else {
-            return $this->errorResponse(['message' => 'User creation failed'], 500);
-        }
+        $newUser = $this->userService->create($validated);
+        return $this->successResponse($newUser, "User created successfully.",201);
     }
     public function update($id, UpdateUserRequest $request)
     {
-        $validated = $request->all();
-        $validated['password'] = bcrypt($validated['password']);
+        $validated = $request->validated();
         $updatedUser = $this->userService->update($id, $validated);
         if ($updatedUser) {
             return $this->successResponse($updatedUser, "User updated successfully.");

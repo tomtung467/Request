@@ -4,7 +4,11 @@ namespace App\Repositories;
 
 interface IBaseRepository
 {
-    public function all();
+    public function all(array $with = []);
+
+    public function allWithFilter($filter, array $with = []);
+
+    public function getAllWithPagination($perPage = 10, array $with = []);
 
     public function find($id);
 

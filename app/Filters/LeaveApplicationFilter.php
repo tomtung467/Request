@@ -9,7 +9,7 @@ class LeaveApplicationFilter extends BaseFilter
 {
     public function __construct(Request $request)
     {
-        $this->request = $request;
+        parent::__construct($request);
     }
     /**
      * Filter by leave application status.
@@ -20,11 +20,17 @@ class LeaveApplicationFilter extends BaseFilter
     protected $filterable = [
         'status',
         'user_id',
-        'month',
-        'year',
     ];
       public function filterName($name)
     {
         return $this->builder->where('name', 'like', '%' . $name . '%');
+    }
+    public function filterMonth($month)
+    {
+        return $this->builder->whereMonth('start_date', $month);
+    }
+    public function filterYear($year)
+    {
+        return $this->builder->whereYear('start_date', $year);
     }
 }

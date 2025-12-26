@@ -24,7 +24,7 @@ class LeaveRequestController extends BaseAPIController
     public function get(Request $request)
     {
         $filter = new LeaveApplicationFilter($request);
-        $leaveRequests = $this->leaveRequestService->getAllWithFilter($filter);
+        $leaveRequests = $this->leaveRequestService->getAllWithFilter( $filter);
         return $this->successResponse($leaveRequests);
     }
     public function create(CreateLeaveRequest $request)

@@ -2,6 +2,7 @@
 namespace App\Services\LeaveRequest;
 use App\Services\BaseService;
 use App\Repositories\LeaveRequest\ILeaveRequestRepository;
+use App\Services\LeaveRequest\ILeaveRequestService;
 use App\Filters\LeaveApplicationFilter;
 class LeaveRequestService extends BaseService implements ILeaveRequestService
 {

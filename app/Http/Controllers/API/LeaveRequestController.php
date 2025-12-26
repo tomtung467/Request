@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseAPIController;
-use Illuminate\Http\Request;
 use App\Services\LeaveRequest\LeaveRequestService;
 use App\Traits\ApiResponseTrait;
 use App\Http\Requests\LeaveRequest\CreateLeaveRequest;
 use App\Http\Requests\LeaveRequest\UpdateLeaveRequest;
+use App\Filters\LeaveApplicationFilter;
+use Illuminate\Http\Request;
 
 class LeaveRequestController extends BaseAPIController
 {
@@ -20,9 +21,10 @@ class LeaveRequestController extends BaseAPIController
         $this->middleware('auth:api');
 
     }
-    public function get()
+    public function get(Request $request)
     {
-        $leaveRequests = $this->leaveRequestService->getAll();
+        $filter = new LeaveApplicationFilter($request);
+        $leaveRequests = $this->leaveRequestService->getAllWithFilter($filter);
         return $this->successResponse($leaveRequests);
     }
     public function create(CreateLeaveRequest $request)
@@ -57,6 +59,33 @@ class LeaveRequestController extends BaseAPIController
             return $this->successResponse(null, "Leave Request deleted successfully.");
         } else {
             return $this->errorResponse('Leave Request not found', 404);
+        }
+    }
+    public function approve($id)
+    {
+        $leaveRequest = $this->leaveRequestService->approve($id);
+        if ($leaveRequest) {
+            return $this->successResponse($leaveRequest, "Leave Request approved successfully.");
+        } else {
+            return $this->errorResponse('Leave Request not found or cannot be approved', 404);
+        }
+    }
+    public function reject($id)
+    {
+        $leaveRequest = $this->leaveRequestService->reject($id);
+        if ($leaveRequest) {
+            return $this->successResponse($leaveRequest, "Leave Request rejected successfully.");
+        } else {
+            return $this->errorResponse('Leave Request not found or cannot be rejected', 404);
+        }
+    }
+    public function cancel($id)
+    {
+        $leaveRequest = $this->leaveRequestService->cancel($id);
+        if ($leaveRequest) {
+            return $this->successResponse($leaveRequest, "Leave Request cancelled successfully.");
+        } else {
+            return $this->errorResponse('Leave Request not found or cannot be cancelled', 404);
         }
     }
 }

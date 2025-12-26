@@ -4,6 +4,10 @@ use App\Http\Requests\BaseRequest;
 class CreateUserRequest extends BaseRequest
 {
     //
+    public function authorize()
+    {
+        return true;
+    }
     public function rules()
     {
         return [
@@ -11,6 +15,10 @@ class CreateUserRequest extends BaseRequest
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ];
+    }
+    public function after()
+    {
+        //
     }
     public function messages()
     {
@@ -24,6 +32,7 @@ class CreateUserRequest extends BaseRequest
             'password.confirmed' => 'Password confirmation does not match',
         ];
     }
+
     public function prepareForValidation()
     {
         //

@@ -7,6 +7,8 @@ use App\Services\User\UserService;
 use App\Traits\ApiResponseTrait;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 
 class UserController extends BaseAPIController
 {
@@ -20,7 +22,12 @@ class UserController extends BaseAPIController
     public function get()
     {
         $users = $this->userService->getAll();
-        return $this->successResponse($users);
+        return $this->successResponse(UserResource::collection($users), "Data retrieved successfully.");
+    }
+    public function list()
+    {
+        $users = $this->userService->getPaginated();
+        return $this->successResponse(UserResource::collection($users), "Data retrieved successfully.");
     }
  public function detail($id)
     {

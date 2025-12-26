@@ -14,4 +14,5 @@ final class LeaveApplicationStatus extends Enum
     const  accepted = 'accepted';
     const  rejected = 'rejected';
     const  pending = 'pending';
+    const  cancelled = 'cancelled';
 }

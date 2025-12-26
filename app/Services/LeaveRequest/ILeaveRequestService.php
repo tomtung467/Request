@@ -2,5 +2,7 @@
 namespace App\Services\LeaveRequest;
 interface ILeaveRequestService
 {
-    // Define leave request-specific service methods here
+    public function approve($id);
+    public function reject($id);
+    public function cancel($id);
 }

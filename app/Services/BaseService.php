@@ -10,39 +10,42 @@ abstract class BaseService
     {
         $this->repository = $repository;
     }
+        public function getPaginated($perPage = 10) {
+        return $this->repository->getAllWithPagination($perPage);
+    }
     public function getAll()
     {
         $data = $this->repository->all();
-        return $this->successResponse($data, "Data retrieved successfully.");
+        return $data;
     }
     public function getById($id)
     {
         $data = $this->repository->find($id);
         if (!$data) {
-            return $this->errorResponse("Resource not found.", 404);
+            return null;
         }
-        return $this->successResponse($data, "Data retrieved successfully.");
+        return $data;
     }
     public function create(array $attributes)
     {
         $data = $this->repository->create($attributes);
-        return $this->successResponse($data, "Resource created successfully.", 201);
+        return $data;
     }
     public function update($id, array $attributes)
     {
         $updated = $this->repository->update($id, $attributes);
         if (!$updated) {
-            return $this->errorResponse("Resource not found.", 404);
+            return null;
         }
-        return $this->successResponse($updated, "Resource updated successfully.");
+        return $updated;
 
     }
     public function delete($id)
     {
         $deleted = $this->repository->delete($id);
         if (!$deleted) {
-            return $this->errorResponse("Resource not found.", 404);
+            return null;
         }
-        return $this->successResponse(null, "Resource deleted successfully.");
+        return true;
     }
 }

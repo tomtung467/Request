@@ -7,6 +7,8 @@ use App\Repositories\User\IUserRepository;
 use App\Repositories\User\UserRepository;
 use App\Repositories\LeaveRequest\ILeaveRequestRepository;
 use App\Repositories\LeaveRequest\LeaveRequestRepository;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -31,5 +33,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        if (app()->environment('local')) {
+        DB::listen(function ($query) {
+            Log::info($query->sql);
+            Log::info($query->bindings);
+            Log::info($query->time);
+        });
+    }
     }
 }

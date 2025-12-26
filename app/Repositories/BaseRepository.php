@@ -17,9 +17,18 @@ abstract class BaseRepository implements IBaseRepository
         $this->model = $model;
     }
 
-    public function all()
+    public function all(array $with = [])
     {
-        return $this->model->all();
+        return $this->model->with($with)->get();
+    }
+
+    public function allWithFilter($filter, array $with = [])
+    {
+        return $this->model->with($with)->filter($filter)->get();
+    }
+    public function getAllWithPagination($perPage = 10, array $with = [])
+    {
+        return $this->model->with($with)->paginate($perPage);
     }
 
     public function find($id)

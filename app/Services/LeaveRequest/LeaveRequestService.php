@@ -48,7 +48,7 @@ class LeaveRequestService extends BaseService implements ILeaveRequestService
           $user = $this->leaveRequestRepository->find($id);
         if (!$user) {
             return null;
-        } else if ($user->status == 'accepted')
+        } else if ($user->status == 'pending')
             {
                 $user->status = 'cancelled';
                 $user->save();

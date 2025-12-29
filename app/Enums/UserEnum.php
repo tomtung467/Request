@@ -14,4 +14,18 @@ final class UserEnum extends Enum
     const ADMIN = 'admin';
     const USER = 'user';
     const GUEST = 'guest';
+    const MANAGER = 'manager';
+    const EMPLOYEE = 'employee';
+    public function isAdmin(): bool
+    {
+        return $this->value === self::ADMIN;
+    }
+    public function isEmployee(): bool
+    {
+        return $this->value === self::USER;
+    }
+    public function isManager(): bool
+    {
+        return $this->value === self::MANAGER;
+    }
 }

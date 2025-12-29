@@ -27,9 +27,9 @@ Route::group([
         Route::post('', [App\Http\Controllers\API\LeaveRequestController::class, 'create']);
         Route::get('{id}', [App\Http\Controllers\API\LeaveRequestController::class, 'detail']);
         Route::put('{id}', [App\Http\Controllers\API\LeaveRequestController::class, 'update']);
-        route::put('{id}/approve', [App\Http\Controllers\API\LeaveRequestController::class, 'approve']);
-        route::put('{id}/reject', [App\Http\Controllers\API\LeaveRequestController::class, 'reject']);
-        route::put('{id}/cancel', [App\Http\Controllers\API\LeaveRequestController::class, 'cancel']);
+        route::post('{id}/approve', [App\Http\Controllers\API\LeaveRequestController::class, 'approve']);
+        route::post('{id}/reject', [App\Http\Controllers\API\LeaveRequestController::class, 'reject']);
+        route::post('{id}/cancel', [App\Http\Controllers\API\LeaveRequestController::class, 'cancel']);
         Route::delete('{id}', [App\Http\Controllers\API\LeaveRequestController::class, 'delete']);
     });
 

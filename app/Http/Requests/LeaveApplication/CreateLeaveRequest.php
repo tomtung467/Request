@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Requests\LeaveRequest;
+namespace App\Http\Requests\LeaveApplication;
 use App\Http\Requests\BaseRequest;
 use App\Rules\NoOverlapDates;
 class CreateLeaveRequest extends BaseRequest

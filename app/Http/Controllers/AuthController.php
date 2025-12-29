@@ -8,10 +8,13 @@ use App\Services\User\UserService;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Resources\UserResource;
+use App\Traits\ApiResponseTrait;
 
 class AuthController extends BaseAPIController
 {
     protected $userService;
+    use ApiResponseTrait;
         public function __construct(UserService $userService)
     {
         $this->userService = $userService;
@@ -23,7 +26,7 @@ class AuthController extends BaseAPIController
         $data['password'] = bcrypt($data['password']);
         $user = $this->userService->create($data);
 
-        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
+        return $this->successResponse($user, 'User registered successfully', 201);
     }
     public function login()
     {
@@ -33,7 +36,7 @@ class AuthController extends BaseAPIController
         ]);
 
         if (! $token = $this->guard()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return $this->errorResponse('Unauthorized', 401);
         }
 
         $refreshToken = $this->createRefreshToken($this->guard()->user());
@@ -42,7 +45,7 @@ class AuthController extends BaseAPIController
 
     private function respondWithToken($token, $refreshToken)
     {
-        return response()->json([
+        return $this->successResponse([
             'access_token' => $token,
             'refresh_token' => $refreshToken,
             'token_type' => 'bearer',
@@ -52,9 +55,11 @@ class AuthController extends BaseAPIController
     public function profile()
     {
         try {
-            return response()->json($this->guard()->user());
+            $user = $this->guard()->user();
+            $user->load('leaveRequests');
+            return $this->successResponse($user);
         } catch (JWTException $e) {
-            return response()->json(['error' => 'Could not retrieve user profile'], 401);
+            return $this->errorResponse('Could not retrieve user profile', 401);
         }
     }
     public function logout()
@@ -67,7 +72,7 @@ class AuthController extends BaseAPIController
     {
         $refreshToken = request('refresh_token');
         if (! $refreshToken) {
-            return response()->json(['error' => 'refresh_token is required'], 400);
+            return $this->errorResponse('refresh_token is required', 400);
         }
         try {
             $decoded = JWTAuth::manager()->getJWTProvider()->decode($refreshToken);
@@ -85,7 +90,7 @@ class AuthController extends BaseAPIController
             $refreshToken = $this->createRefreshToken($user);
             return $this->respondWithToken($token, $refreshToken);
         } catch (JWTException $exception) {
-            return response()->json(['error' => 'Invalid refresh token'], 401);
+            return $this->errorResponse('Invalid refresh token', 401);
         }
     }
     private function createRefreshToken(User $user)

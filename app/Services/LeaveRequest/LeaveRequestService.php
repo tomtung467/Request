@@ -55,4 +55,9 @@ class LeaveRequestService extends BaseService implements ILeaveRequestService
                 return $user;
             }
     }
+    public function getPaginated($perPage = 10)
+    {
+        $data = $this->repository->getAllWithPagination($perPage, ['user']);
+        return $data;
+    }
 }

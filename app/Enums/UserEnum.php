@@ -13,7 +13,6 @@ final class UserEnum extends Enum
 {
     const ADMIN = 'admin';
     const USER = 'user';
-    const GUEST = 'guest';
     const MANAGER = 'manager';
     const EMPLOYEE = 'employee';
     public function isAdmin(): bool

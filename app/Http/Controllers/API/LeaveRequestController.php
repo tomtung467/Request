@@ -5,12 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\BaseAPIController;
 use App\Services\LeaveRequest\LeaveRequestService;
 use App\Traits\ApiResponseTrait;
-use App\Http\Requests\LeaveRequest\CreateLeaveRequest;
-use App\Http\Requests\LeaveRequest\UpdateLeaveRequest;
+use App\Http\Requests\LeaveApplication\CreateLeaveRequest;
+use App\Http\Requests\LeaveApplication\UpdateLeaveRequest;
 use App\Filters\LeaveApplicationFilter;
 use App\Http\Requests\LeaveApplication\RejectLeaveApplicationRequest;
-use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Http\Request;
+use App\Http\Resources\LeaveRequestResource;
 
 class LeaveRequestController extends BaseAPIController
 {
@@ -20,7 +20,7 @@ class LeaveRequestController extends BaseAPIController
     public function __construct(LeaveRequestService $leaveRequestService)
     {
         $this->leaveRequestService = $leaveRequestService;
-        $this->middleware('auth:api');
+        //$this->middleware('auth:api');
 
     }
     public function get(Request $request)
@@ -28,6 +28,11 @@ class LeaveRequestController extends BaseAPIController
         $filter = new LeaveApplicationFilter($request);
         $leaveRequests = $this->leaveRequestService->getAllWithFilter( $filter);
         return $this->successResponse($leaveRequests);
+    }
+    public function list(Request $request)
+    {
+        $leaveRequests = $this->leaveRequestService->getPaginated();
+        return $this->successResponse(LeaveRequestResource::collection($leaveRequests));
     }
     public function create(CreateLeaveRequest $request)
     {
@@ -46,7 +51,9 @@ class LeaveRequestController extends BaseAPIController
     }
     public function update(UpdateLeaveRequest $request, $id)
     {
+        $leaveRequest = $this->leaveRequestService->getById($id);
         $validated = $request->validated();
+        $this->authorize('update', $leaveRequest);
         $leaveRequest = $this->leaveRequestService->update($id, $validated);
         if ($leaveRequest) {
             return $this->successResponse($leaveRequest);

@@ -17,9 +17,9 @@ class LeaveRequestResource extends JsonResource
         return
         [
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'reason' => $this->reason,
             'status' => $this->status,
+            'user' => new UserResource($this->whenLoaded('user')),
         ];
     }
 }

@@ -8,4 +8,8 @@ class LeaveRequestRepository extends BaseRepository implements ILeaveRequestRepo
     {
         $this->model = $model;
     }
+    public function getModel()
+    {
+        return LeaveRequest::class;
+    }
 }

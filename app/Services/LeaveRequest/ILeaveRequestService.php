@@ -7,4 +7,5 @@ interface ILeaveRequestService
     public function approve($id);
     public function reject($id);
     public function cancel($id);
+    public function getPaginated($perPage = 10);
 }

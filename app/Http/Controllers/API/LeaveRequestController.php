@@ -40,7 +40,7 @@ class LeaveRequestController extends BaseAPIController
     public function create(CreateLeaveRequest $request)
     {
         $validated = $request->validated();
-        $leaveRequest = new LeaveRequest($validated); 
+        $leaveRequest = new LeaveRequest($validated);
         $this->authorize('create', $leaveRequest);
         $leaveRequest = $this->leaveRequestService->create($validated);
         return $this->successResponse($leaveRequest, 201);

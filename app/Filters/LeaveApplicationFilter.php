@@ -2,7 +2,7 @@
 namespace App\Filters;
 use App\Filters\BaseFilter;
 use App\Enums\LeaveApplicationStatus;
-use App\Models\LeaveRequest;
+use App\Models\LeaveApplication;
 use Illuminate\Http\Request;
 
 class LeaveApplicationFilter extends BaseFilter

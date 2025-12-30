@@ -5,8 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\User\IUserRepository;
 use App\Repositories\User\UserRepository;
-use App\Repositories\LeaveRequest\ILeaveRequestRepository;
-use App\Repositories\LeaveRequest\LeaveRequestRepository;
+use App\Repositories\LeaveApplication\ILeaveApplicationRepository;
+use App\Repositories\LeaveApplication\LeaveApplicationRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 class AppServiceProvider extends ServiceProvider
@@ -22,8 +22,8 @@ class AppServiceProvider extends ServiceProvider
             UserRepository::class
         );
         $this->app->bind(
-            ILeaveRequestRepository::class,
-            LeaveRequestRepository::class
+            ILeaveApplicationRepository::class,
+            LeaveApplicationRepository::class
         );
     }
 

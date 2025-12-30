@@ -36,9 +36,9 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
     ];
-    public function leaveRequests()
+    public function leaveApplications()
     {
-        return $this->hasMany(LeaveRequest::class);
+        return $this->hasMany(LeaveApplication::class);
     }
 
     /**

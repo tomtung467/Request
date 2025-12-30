@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use Illuminate\Auth\Access\Response;
 use App\Models\User;
-use App\Models\LeaveRequest;
+use App\Models\LeaveApplication;
 
 class UserPolicy extends BasePolicy
 {

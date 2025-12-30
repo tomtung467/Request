@@ -23,15 +23,15 @@ Route::group([
         Route::delete('{id}', [App\Http\Controllers\API\UserController::class, 'delete']);
     });
     Route::group(['prefix' => 'leave-applications'], function () {
-        Route::get('', [App\Http\Controllers\API\LeaveRequestController::class, 'get']);
-        Route::post('', [App\Http\Controllers\API\LeaveRequestController::class, 'create']);
-                route::get('list', [App\Http\Controllers\API\LeaveRequestController::class, 'list']);
-        Route::get('{id}', [App\Http\Controllers\API\LeaveRequestController::class, 'detail']);
-        Route::put('{id}', [App\Http\Controllers\API\LeaveRequestController::class, 'update']);
-        route::post('{id}/approve', [App\Http\Controllers\API\LeaveRequestController::class, 'approve']);
-        route::post('{id}/reject', [App\Http\Controllers\API\LeaveRequestController::class, 'reject']);
-        route::post('{id}/cancel', [App\Http\Controllers\API\LeaveRequestController::class, 'cancel']);
-        Route::delete('{id}', [App\Http\Controllers\API\LeaveRequestController::class, 'delete']);
+        Route::get('', [App\Http\Controllers\API\LeaveApplicationController::class, 'get']);
+        Route::post('', [App\Http\Controllers\API\LeaveApplicationController::class, 'create']);
+                route::get('list', [App\Http\Controllers\API\LeaveApplicationController::class, 'list']);
+        Route::get('{id}', [App\Http\Controllers\API\LeaveApplicationController::class, 'detail']);
+        Route::put('{id}', [App\Http\Controllers\API\LeaveApplicationController::class, 'update']);
+        route::post('{id}/approve', [App\Http\Controllers\API\LeaveApplicationController::class, 'approve']);
+        route::post('{id}/reject', [App\Http\Controllers\API\LeaveApplicationController::class, 'reject']);
+        route::post('{id}/cancel', [App\Http\Controllers\API\LeaveApplicationController::class, 'cancel']);
+        Route::delete('{id}', [App\Http\Controllers\API\LeaveApplicationController::class, 'delete']);
     });
 
 });

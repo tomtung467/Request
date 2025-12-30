@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\LeaveRequestResource;
+use App\Http\Resources\LeaveApplicationResource;
 
 class UserResource extends JsonResource
 {
@@ -19,9 +19,9 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'leave_requests' => $this->when(
-                $this->relationLoaded('leaveRequests') && $this->leaveRequests->isNotEmpty(),
-                LeaveRequestResource::collection($this->leaveRequests)
+            'leave_applications' => $this->when(
+                $this->relationLoaded('leaveApplications') && $this->leaveApplications->isNotEmpty(),
+                LeaveApplicationResource::collection($this->leaveApplications)
             ),
         ];
 

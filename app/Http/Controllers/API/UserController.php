@@ -33,7 +33,7 @@ class UserController extends BaseAPIController
     {
         $user = $this->userService->getById($id);
         if ($user) {
-            return $this->successResponse(new UserResource($user->load('leaveRequests')));
+            return $this->successResponse(new UserResource($user->load('leaveApplications')));
         } else {
             return $this->errorResponse(['message' => 'User not found'], 404);
         }

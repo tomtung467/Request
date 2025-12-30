@@ -56,7 +56,7 @@ class AuthController extends BaseAPIController
     {
         try {
             $user = $this->guard()->user();
-            $user->load('leaveRequests');
+            $user->load('leaveApplications');
             return $this->successResponse($user);
         } catch (JWTException $e) {
             return $this->errorResponse('Could not retrieve user profile', 401);
@@ -64,7 +64,7 @@ class AuthController extends BaseAPIController
     }
     public function logout()
     {
-        $this->guard()->logout();   
+        $this->guard()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }

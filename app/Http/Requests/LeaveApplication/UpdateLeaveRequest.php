@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Requests\LeaveApplication;
 use App\Http\Requests\BaseRequest;
-use App\Models\LeaveRequest;
+use App\Models\LeaveApplication;
 
 class UpdateLeaveRequest extends BaseRequest
 {
@@ -32,10 +32,10 @@ class UpdateLeaveRequest extends BaseRequest
     }
     // public function authorize()
     // {
-    //     $leaveRequest = LeaveRequest::find($this->route('id'));
-    //     if (!$leaveRequest) {
+    //     $leaveApplication = LeaveApplication::find($this->route('id'));
+    //     if (!$leaveApplication) {
     //         return false;
     //     }
-    //     return $this->user()->id === $leaveRequest->user_id;
+    //     return $this->user()->id === $leaveApplication->user_id;
     // }
 }

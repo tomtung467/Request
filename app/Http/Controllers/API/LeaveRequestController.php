@@ -21,7 +21,7 @@ class LeaveRequestController extends BaseAPIController
     public function __construct(LeaveRequestService $leaveRequestService)
     {
         $this->leaveRequestService = $leaveRequestService;
-        //$this->middleware('auth:api');
+        $this->middleware('auth:api');
 
     }
     public function get(Request $request)

@@ -60,4 +60,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function scopeAccessibleByRole($query)
+    {
+        if (auth()->user()->hasRole('admin')) {
+        return $query;
+    }
+    return $query->where('id', auth()->id());
+    }
 }

@@ -6,10 +6,14 @@ use Illuminate\Auth\Access\Response;
 use App\Models\User;
 use App\Models\LeaveRequest;
 
-class UserPolicy
+class UserPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
      */
+    public function viewAny(User $user): bool
+    {
+        return true;
+    }
 
 }

@@ -28,6 +28,7 @@ class LeaveRequest extends Model
         'updated_at',
     ];
     protected $casts = [
+        'user_id' => 'integer',
         'start_date' => 'date',
         'end_date' => 'date',
         'status' => LeaveApplicationStatus::class,

@@ -16,8 +16,10 @@ class LeaveRequestService extends BaseService implements ILeaveRequestService
 
     public function getAllWithFilter(LeaveApplicationFilter $filter)
     {
-        $data = $this->leaveRequestRepository->allWithFilter($filter);
-        return $data;
+        $user = auth()->user();
+        $query = $this->leaveRequestRepository->visibleTo($user)->with('user');
+
+        return $query->filter($filter)->get();
     }
     public function approve($id)
     {
@@ -57,7 +59,9 @@ class LeaveRequestService extends BaseService implements ILeaveRequestService
     }
     public function getPaginated($perPage = 10)
     {
-        $data = $this->repository->getAllWithPagination($perPage, ['user']);
-        return $data;
+        $user = auth()->user();
+        $query = $this->leaveRequestRepository->visibleTo($user)->with('user');
+
+        return $query->paginate($perPage);
     }
 }

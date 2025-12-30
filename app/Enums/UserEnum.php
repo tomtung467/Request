@@ -21,7 +21,7 @@ final class UserEnum extends Enum
     }
     public function isEmployee(): bool
     {
-        return $this->value === self::USER;
+        return $this->value === self::EMPLOYEE;
     }
     public function isManager(): bool
     {

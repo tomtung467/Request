@@ -18,7 +18,7 @@ class AuthController extends BaseAPIController
         public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->middleware('auth:api', ['except' => ['login','refresh']]);
+        $this->middleware('auth:api', ['except' => ['login','refresh','register']]);
     }
     public function register(CreateUserRequest $request)
     {
@@ -64,7 +64,7 @@ class AuthController extends BaseAPIController
     }
     public function logout()
     {
-        $this->guard()->logout();
+        $this->guard()->logout();   
 
         return response()->json(['message' => 'Successfully logged out']);
     }

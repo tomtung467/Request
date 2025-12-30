@@ -45,15 +45,43 @@ class LeaveRequestPolicy extends BasePolicy
     }
     public function viewAny(User $user): bool
     {
-        return true;
+        if ($user->role && $user->role->isAdmin()) {
+            return true;
+        }
+
+        if ($user->role && $user->role->isManager()) {
+            return true;
+        }
+
+        return $user->role && $user->role->isEmployee();
     }
+
     public function view(User $user, LeaveRequest $leaveRequest): bool
     {
-        return true;
+        if ($user->role && $user->role->isAdmin()) {
+            return true;
+        }
+
+        if ($user->role && $user->role->isManager()) {
+            $requestUser = $leaveRequest->user;
+            if ($requestUser && $requestUser->role && $requestUser->role->isAdmin()) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return $leaveRequest->user_id === $user->id;
     }
-    public function create(User $user): bool
+    public function create(User $user, LeaveRequest $leaveRequest): bool
     {
-        return true;
+        if ($user->role && ($user->role->isAdmin() || $user->role->isManager())) {
+            return true;
+        }
+        if ($user->role && ($user->role->isEmployee() && $leaveRequest->user_id === $user->id)) {
+            return true;
+        }
+        return false;
     }
     public function update(User $user, LeaveRequest $leaveRequest): bool
     {

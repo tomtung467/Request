@@ -11,6 +11,7 @@ use App\Filters\LeaveApplicationFilter;
 use App\Http\Requests\LeaveApplication\RejectLeaveApplicationRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\LeaveRequestResource;
+use App\Models\LeaveRequest;
 
 class LeaveRequestController extends BaseAPIController
 {
@@ -25,18 +26,22 @@ class LeaveRequestController extends BaseAPIController
     }
     public function get(Request $request)
     {
+        $this->authorize('viewAny', LeaveRequest::class);
         $filter = new LeaveApplicationFilter($request);
         $leaveRequests = $this->leaveRequestService->getAllWithFilter( $filter);
         return $this->successResponse($leaveRequests);
     }
     public function list(Request $request)
     {
+        $this->authorize('viewAny', LeaveRequest::class);
         $leaveRequests = $this->leaveRequestService->getPaginated();
         return $this->successResponse(LeaveRequestResource::collection($leaveRequests));
     }
     public function create(CreateLeaveRequest $request)
     {
         $validated = $request->validated();
+        $leaveRequest = new LeaveRequest($validated); 
+        $this->authorize('create', $leaveRequest);
         $leaveRequest = $this->leaveRequestService->create($validated);
         return $this->successResponse($leaveRequest, 201);
     }
@@ -44,6 +49,7 @@ class LeaveRequestController extends BaseAPIController
     {
         $leaveRequest = $this->leaveRequestService->getById($id);
         if ($leaveRequest) {
+            $this->authorize('view', $leaveRequest);
             return $this->successResponse($leaveRequest);
         } else {
             return $this->errorResponse('Leave Request not found', 404);

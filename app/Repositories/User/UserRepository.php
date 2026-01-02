@@ -15,4 +15,18 @@ class UserRepository extends BaseRepository implements IUserRepository
     {
         return User::class;
     }
+    public function VisibleTo(User $user)
+    {
+        $query = $this->model->newQuery();
+
+        if ($user->role && $user->role->isAdmin()) {
+            return $query;
+        }
+
+        if ($user->role && $user->role->isManager()) {
+            return $query->where('role', '!=', 'admin');
+        }
+
+        return $query->where('id', $user->id);
+    }
 }

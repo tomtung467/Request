@@ -17,7 +17,7 @@ class LeaveApplicationService extends BaseService implements ILeaveApplicationSe
     public function getAllWithFilter(LeaveApplicationFilter $filter)
     {
         $user = auth()->user();
-        $query = $this->leaveApplicationRepository->visibleTo($user)->with('user');
+        $query = $this->leaveApplicationRepository-> VisibleTo($user)->with('user');
 
         return $query->filter($filter)->get();
     }

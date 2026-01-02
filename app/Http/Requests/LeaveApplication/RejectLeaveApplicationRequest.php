@@ -21,9 +21,9 @@ class RejectLeaveApplicationRequest extends FormRequest
     public function messages()
     {
         return [
-            'reason.required' => 'Rejection reason is required.',
-            'reason.string' => 'Rejection reason must be a valid string.',
-            'reason.max' => 'Rejection reason may not be greater than 500 characters.',
+            'reason.required' => __('validation.required',['Attribute'=>__('rejection reason')]),
+            'reason.string' => __('validation.string',['Attribute'=>__('rejection reason')]),
+            'reason.max' => __('validation.max',['Attribute'=>__('rejection reason'),'max'=>500]),
         ];
     }
 }

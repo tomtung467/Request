@@ -15,13 +15,13 @@ class UpdateUserRequest extends BaseRequest
     public function messages()
     {
         return [
-            'name.required' => 'Name is required',
-            'email.required' => 'Email is required',
-            'email.email' => 'Email must be a valid email address',
-            'email.unique' => 'Email already exists',
-            'password.required' => 'Password is required',
-            'password.min' => 'Password must be at least 8 characters',
-            'password.confirmed' => 'Password confirmation does not match',
+            'name.required' => __('validation.required',['Attribute'=>__('name')]),
+            'email.required' => __('validation.required',['Attribute'=>__('email')]),
+            'email.email' => __('validation.email',['Attribute'=>__('email')]),
+            'email.unique' => __('validation.unique',['Attribute'=>__('email')]),
+            'password.required' => __('validation.required',['Attribute'=>__('password')]),
+            'password.min' => __('validation.min.string',['Attribute'=>__('password'),'min'=>8]),
+            'password.confirmed' => __('validation.confirmed',['Attribute'=>__('password')]),
         ];
     }
     public function prepareForValidation()

@@ -29,9 +29,9 @@ class LeaveApplicationController extends BaseAPIController
         $this->authorize('viewAny', LeaveApplication::class);
         $filter = new LeaveApplicationFilter($request);
         $leaveApplications = $this->leaveApplicationService->getAllWithFilter( $filter);
-        return $this->successResponse($leaveApplications);
+        return $this->successResponse(LeaveApplicationResource::collection($leaveApplications));
     }
-    public function list(Request $request)
+    public function list()
     {
         $this->authorize('viewAny', LeaveApplication::class);
         $leaveApplications = $this->leaveApplicationService->getPaginated();

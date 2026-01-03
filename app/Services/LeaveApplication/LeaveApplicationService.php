@@ -16,8 +16,8 @@ class LeaveApplicationService extends BaseService implements ILeaveApplicationSe
 
     public function getAllWithFilter(LeaveApplicationFilter $filter)
     {
-        $user = auth()->user();
-        $query = $this->leaveApplicationRepository->VisibleTo($user)->with('user');
+        $user = auth()->guard()->user();
+        $query = $this->repository->visibleTo($user)->with('user');
 
         return $query->filter($filter)->get();
     }
@@ -59,8 +59,8 @@ class LeaveApplicationService extends BaseService implements ILeaveApplicationSe
     }
     public function getPaginated($perPage = 10)
     {
-        $user = auth()->user();
-        $query = $this->leaveApplicationRepository->visibleTo($user)->with('user');
+        $user = auth()->guard()->user();
+        $query = $this->repository->visibleTo($user)->with('user');
 
         return $query->paginate($perPage);
     }

@@ -35,7 +35,7 @@ class UserController extends BaseAPIController
     {
         $user = $this->userService->getById($id);
         if ($user) {
-            return $this->successResponse(new UserResource($user->load('leaveApplications')));
+            return $this->successResponse($user->load('leaveApplications'));
         } else {
             return $this->errorResponse(['message' => 'User not found'], 404);
         }
@@ -49,7 +49,7 @@ class UserController extends BaseAPIController
     }
     public function update($id, UpdateUserRequest $request)
     {
-        $user = $this->userService->getById($id);                
+        $user = $this->userService->getById($id);
         if (!$user) {
             return $this->errorResponse(['message' => 'User not found'], 404);
         }

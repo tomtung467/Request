@@ -8,7 +8,6 @@ use App\Services\User\UserService;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Http\Resources\UserResource;
 use App\Traits\ApiResponseTrait;
 
 class AuthController extends BaseAPIController

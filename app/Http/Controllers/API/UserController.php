@@ -49,19 +49,25 @@ class UserController extends BaseAPIController
     }
     public function update($id, UpdateUserRequest $request)
     {
-        $validated = $request->validated();
-        this -> authorize('update', User::class);
-        $updatedUser = $this->userService->update($id, $validated);
-        if ($updatedUser) {
-            return $this->successResponse($updatedUser, "User updated successfully.");
-        } else {
+        $user = $this->userService->getById($id);                
+        if (!$user) {
             return $this->errorResponse(['message' => 'User not found'], 404);
         }
+        $this->authorize('update', $user);
+        $validated = $request->validated();
+        $updatedUser = $this->userService->update($id, $validated);
+        return $this->successResponse($updatedUser, "User updated successfully.");
     }
     public function delete($id)
     {
-        $this ->authorize('delete', User::class);
+        $user = $this->userService->getById($id);
+        if (!$user) {
+            return $this->errorResponse(['message' => 'User not found'], 404);
+        }
+
+        $this->authorize('delete', $user);
+
         $result = $this->userService->delete($id);
-            return $this->successResponse(null, "User deleted successfully.",200);
+        return $this->successResponse(null, "User deleted successfully.",200);
     }
 }

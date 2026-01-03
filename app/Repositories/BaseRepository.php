@@ -43,7 +43,11 @@ abstract class BaseRepository implements IBaseRepository
     public function update($id, array $attributes)
     {
         $record = $this->find($id);
-        return $record ? $record->update($attributes) : false;
+        if ($record) {
+            $record->update($attributes);
+            return $record->fresh();
+        } 
+        return false;
     }
 
     public function delete($id)

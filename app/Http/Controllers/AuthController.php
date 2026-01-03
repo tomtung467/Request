@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +55,7 @@ class AuthController extends BaseAPIController
     public function profile()
     {
         try {
+            /** @var User $user */
             $user = $this->guard()->user();
             $user->load('leaveApplications');
             return $this->successResponse($user);
@@ -61,7 +63,7 @@ class AuthController extends BaseAPIController
             return $this->errorResponse('Could not retrieve user profile', 401);
         }
     }
-    public function logout()
+    public function logout()  
     {
         $this->guard()->logout();
 

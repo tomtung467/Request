@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\LeaveApplicationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Filters\LeaveApplicationFilter;
-use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Filterable;
 
 class LeaveApplication extends Model

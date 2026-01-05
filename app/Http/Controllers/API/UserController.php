@@ -23,7 +23,7 @@ class UserController extends BaseAPIController
     }
     public function get()
     {
-        $users = $this->userService->getAll();
+       $users = $this->userService->getAll();
         return $this->successResponse(UserResource::collection($users), "Data retrieved successfully.");
     }
     public function list()
@@ -35,7 +35,7 @@ class UserController extends BaseAPIController
     {
         $user = $this->userService->getById($id);
         if ($user) {
-            return $this->successResponse($user->load('leaveApplications'));
+            return $this->successResponse($user);
         } else {
             return $this->errorResponse(['message' => 'User not found'], 404);
         }
@@ -55,7 +55,9 @@ class UserController extends BaseAPIController
         }
         $this->authorize('update', $user);
         $validated = $request->validated();
-        $updatedUser = $this->userService->update($id, $validated);
+        // Filter out null values to preserve existing data for fields not provided
+        $dataToUpdate = array_filter($validated, fn($value) => $value !== null);
+        $updatedUser = $this->userService->update($id, $dataToUpdate);
         return $this->successResponse($updatedUser, "User updated successfully.");
     }
     public function delete($id)

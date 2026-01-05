@@ -58,7 +58,17 @@ class User extends Authenticatable implements JWTSubject
     }
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'type'   => 'access',
+        ];
+    }
+    public function getJWTRefreshcustomClaims()
+    {
+        return [
+            'sub'    => $this->getJWTIdentifier(),
+            'type'   => 'refresh',
+            'random' => (string) (rand() . time()),
+        ];
     }
     // public function scopeAccessibleByRole($query)
     // {

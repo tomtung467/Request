@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\CreateUserRequest;
-use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Auth;
@@ -63,11 +62,11 @@ class AuthController extends BaseAPIController
             return $this->errorResponse('Could not retrieve user profile', 401);
         }
     }
-    public function logout()  
+    public function logout()
     {
         $this->guard()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->successResponse(['message' => 'Successfully logged out']);
     }
     public function refresh()
     {
@@ -77,16 +76,10 @@ class AuthController extends BaseAPIController
         }
         try {
             $decoded = JWTAuth::manager()->getJWTProvider()->decode($refreshToken);
-            try {
-                $user = User::find($decoded['subac']);
-            } catch (\Exception $e) {
-                return response()->json(['error' => 'this is not the refresh_token'], 404);
+            if ($decoded['type'] !== 'refresh') {
+                return $this->errorResponse(['error' => 'this is not the refresh_token'], 404);
             }
-
-            if (! $user) {
-                return response()->json(['error' => 'User not found'], 404);
-            }
-
+            $user = $this->userService->getById($decoded['sub']);
             $token = $this->guard()->login($user);
             $refreshToken = $this->createRefreshToken($user);
             return $this->respondWithToken($token, $refreshToken);
@@ -96,12 +89,10 @@ class AuthController extends BaseAPIController
     }
     private function createRefreshToken(User $user)
     {
-        $refreshToken = JWTAuth::manager()->getJWTProvider()->encode([
-            'subac'    => $user->id,
-            'random' => (string) (rand() . time()),
-            'exp'    => time() + config('jwt.refresh_ttl') * 60,
-        ]);
-        return $refreshToken;
+    $payload = $user->getJWTRefreshcustomClaims();
+        // Thêm thời gian hết hạn (exp)
+    $payload['exp'] = time() + config('jwt.refresh_ttl') * 60;
+    return JWTAuth::manager()->getJWTProvider()->encode($payload);
     }
 
     /**

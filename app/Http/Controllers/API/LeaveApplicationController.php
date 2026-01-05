@@ -29,7 +29,7 @@ class LeaveApplicationController extends BaseAPIController
         $this->authorize('viewAny', LeaveApplication::class);
         $filter = new LeaveApplicationFilter($request);
         $leaveApplications = $this->leaveApplicationService->getAllWithFilter( $filter);
-        return $this->successResponse(LeaveApplicationResource::collection($leaveApplications));
+        return $this->successResponse($leaveApplications);
     }
     public function list()
     {
@@ -69,6 +69,11 @@ class LeaveApplicationController extends BaseAPIController
     }
     public function delete($id)
     {
+        $leaveApplication = $this->leaveApplicationService->getById($id);
+        if (!$leaveApplication) {
+            return $this->errorResponse('Leave Application not found', 404);
+        }
+        $this->authorize('delete', $leaveApplication);
         $result = $this->leaveApplicationService->delete($id);
         if ($result) {
             return $this->successResponse(null, "Leave Application deleted successfully.");

@@ -88,4 +88,10 @@ class LeaveApplicationPolicy extends BasePolicy
         $isOwner = $leaveApplication->user_id === $user->id;
         return $isOwner;
     }
+    public function delete(User $user, LeaveApplication $leaveApplication): bool
+    {
+        $isAdmin = $user->role && $user->role->isAdmin();
+        $isOwner = $leaveApplication->user_id === $user->id;
+        return $isAdmin || $isOwner;
+    }
 }

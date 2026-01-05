@@ -15,17 +15,17 @@ Route::group([
     Route::post('refresh', [App\Http\Controllers\AuthController::class, 'refresh']);
     Route::get('me', [App\Http\Controllers\AuthController::class, 'profile']);
     Route::group(['prefix' => 'users'], function () {
-        Route::get('', [App\Http\Controllers\API\UserController::class, 'get']  );
+        Route::get('', [App\Http\Controllers\API\UserController::class, 'get']);
         Route::get('list', [App\Http\Controllers\API\UserController::class, 'list']);
-        Route::post('', [App\Http\Controllers\API\UserController::class, 'create']);
         Route::get('{id}', [App\Http\Controllers\API\UserController::class, 'detail']);
+        Route::post('', [App\Http\Controllers\API\UserController::class, 'create']);
         Route::put('{id}', [App\Http\Controllers\API\UserController::class, 'update']);
         Route::delete('{id}', [App\Http\Controllers\API\UserController::class, 'delete']);
     });
     Route::group(['prefix' => 'leave-applications'], function () {
         Route::get('', [App\Http\Controllers\API\LeaveApplicationController::class, 'get']);
         Route::post('', [App\Http\Controllers\API\LeaveApplicationController::class, 'create']);
-                route::get('list', [App\Http\Controllers\API\LeaveApplicationController::class, 'list']);
+        route::get('list', [App\Http\Controllers\API\LeaveApplicationController::class, 'list']);
         Route::get('{id}', [App\Http\Controllers\API\LeaveApplicationController::class, 'detail']);
         Route::put('{id}', [App\Http\Controllers\API\LeaveApplicationController::class, 'update']);
         route::post('{id}/approve', [App\Http\Controllers\API\LeaveApplicationController::class, 'approve']);

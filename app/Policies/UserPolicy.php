@@ -40,13 +40,8 @@ class UserPolicy extends BasePolicy
     }
     public function delete(User $user, User $model): bool
     {
-        if ($user->role && $user->role->isAdmin()) {
-            return true;
-        }
-        if ($user->role && $user->role->isManager()) {
-            return !$model->role || !$model->role->isAdmin();
-        }
-
-        return $user->id === $model->id;
+        $isadmin = $user->role && $user->role->isAdmin();
+        $ismanager = $user->role && $user->role->isManager();
+        return $isadmin || ($ismanager && (!$model->role || !$model->role->isAdmin()));
     }
 }

@@ -4,6 +4,7 @@ use App\Services\BaseService;
 use App\Repositories\LeaveApplication\ILeaveApplicationRepository;
 use App\Services\LeaveApplication\ILeaveApplicationService;
 use App\Filters\LeaveApplicationFilter;
+use App\Enums\LeaveApplicationStatus;
 class LeaveApplicationService extends BaseService implements ILeaveApplicationService
 {
     protected $leaveApplicationRepository;
@@ -23,39 +24,63 @@ class LeaveApplicationService extends BaseService implements ILeaveApplicationSe
     }
     public function approve($id)
     {
-            $user = $this->leaveApplicationRepository->find($id);
-            if (!$user) {
-                return null;
-            } else if ($user->status == 'pending')
-                {
-                    $user->status = 'accepted';
-                    $user->save();
-                    return $user;
-                }
+        $leave = $this->leaveApplicationRepository->find($id);
+        if (! $leave) {
+            return null;
+        }
+
+        $status = $leave->status instanceof LeaveApplicationStatus
+            ? $leave->status
+            : LeaveApplicationStatus::tryFrom((string) $leave->status);
+
+        if (! $status?->isPending()) {
+            return null;
+        }
+
+        $leave->status = LeaveApplicationStatus::ACCEPTED->value;
+        $leave->save();
+
+        return $leave;
     }
     public function reject($id)
     {
-          $user = $this->leaveApplicationRepository->find($id);
-        if (!$user) {
+        $leave = $this->leaveApplicationRepository->find($id);
+        if (! $leave) {
             return null;
-        } else if ($user->status == 'pending')
-            {
-                $user->status = 'rejected';
-                $user->save();
-                return $user;
-            }
+        }
+
+        $status = $leave->status instanceof LeaveApplicationStatus
+            ? $leave->status
+            : LeaveApplicationStatus::tryFrom((string) $leave->status);
+
+        if (! $status?->isPending()) {
+            return null;
+        }
+
+        $leave->status = LeaveApplicationStatus::REJECTED->value;
+        $leave->save();
+
+        return $leave;
     }
     public function cancel($id)
     {
-          $user = $this->leaveApplicationRepository->find($id);
-        if (!$user) {
+        $leave = $this->leaveApplicationRepository->find($id);
+        if (! $leave) {
             return null;
-        } else if ($user->status == 'pending')
-            {
-                $user->status = 'cancelled';
-                $user->save();
-                return $user;
-            }
+        }
+
+        $status = $leave->status instanceof LeaveApplicationStatus
+            ? $leave->status
+            : LeaveApplicationStatus::tryFrom((string) $leave->status);
+
+        if (! $status?->isPending()) {
+            return null;
+        }
+
+        $leave->status = LeaveApplicationStatus::CANCELLED->value;
+        $leave->save();
+
+        return $leave;
     }
     public function getPaginated($perPage = 10)
     {

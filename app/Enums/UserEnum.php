@@ -2,29 +2,30 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
 /**
  * @method static static OptionOne()
  * @method static static OptionTwo()
  * @method static static OptionThree()
  */
-final class UserEnum extends Enum
+enum UserEnum : string
 {
-    const ADMIN = 'admin';
-    const USER = 'user';
-    const MANAGER = 'manager';
-    const EMPLOYEE = 'employee';
+    case ADMIN = 'admin';
+    case USER = 'user';
+    case MANAGER = 'manager';
+    case EMPLOYEE = 'employee';
+
     public function isAdmin(): bool
     {
-        return $this->value === self::ADMIN;
+        return $this === self::ADMIN;
     }
+
     public function isEmployee(): bool
     {
-        return $this->value === self::EMPLOYEE;
+        return $this === self::EMPLOYEE;
     }
+
     public function isManager(): bool
     {
-        return $this->value === self::MANAGER;
+        return $this === self::MANAGER;
     }
 }

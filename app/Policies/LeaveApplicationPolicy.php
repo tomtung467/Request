@@ -13,10 +13,10 @@ class LeaveApplicationPolicy extends BasePolicy
     public function approve(User $user, LeaveApplication $leaveApplication): bool
     {
         $ismanager = $user->role && $user->role->isManager();
-        $statusValue = $leaveApplication->status instanceof LeaveApplicationStatus
-            ? $leaveApplication->status->value
-            : (string) $leaveApplication->status;
-        $isPending = $statusValue === LeaveApplicationStatus::pending;
+        $status = $leaveApplication->status instanceof LeaveApplicationStatus
+            ? $leaveApplication->status
+            : LeaveApplicationStatus::tryFrom((string) $leaveApplication->status);
+        $isPending = $status?->isPending();
         return $ismanager && $isPending;
 
     }
@@ -25,10 +25,10 @@ class LeaveApplicationPolicy extends BasePolicy
     {
         $ismanager = $user->role && $user->role->isManager();
         $isadmin = $user->role && $user->role->isAdmin();
-        $statusValue = $leaveApplication->status instanceof LeaveApplicationStatus
-            ? $leaveApplication->status->value
-            : (string) $leaveApplication->status;
-        $isPending = $statusValue === LeaveApplicationStatus::pending;
+        $status = $leaveApplication->status instanceof LeaveApplicationStatus
+            ? $leaveApplication->status
+            : LeaveApplicationStatus::tryFrom((string) $leaveApplication->status);
+        $isPending = $status?->isPending();
         return ($ismanager || $isadmin) && $isPending;
     }
 
@@ -36,10 +36,10 @@ class LeaveApplicationPolicy extends BasePolicy
     {
         $isAdmin = $user->role && $user->role->isAdmin();
         $isOwner = $leaveApplication->user_id === $user->id;
-        $statusValue = $leaveApplication->status instanceof LeaveApplicationStatus
-            ? $leaveApplication->status->value
-            : (string) $leaveApplication->status;
-        $isPending = $statusValue === LeaveApplicationStatus::pending;
+        $status = $leaveApplication->status instanceof LeaveApplicationStatus
+            ? $leaveApplication->status
+            : LeaveApplicationStatus::tryFrom((string) $leaveApplication->status);
+        $isPending = $status?->isPending();
 
         return $isAdmin || ($isOwner && $isPending);
     }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->integer('total_days')->virtualAs('DATEDIFF(end_date, start_date) + 1');
             $table->string('reason');
-            $table->string('status')->default(LeaveApplicationStatus::pending);
+            $table->string('status')->default(LeaveApplicationStatus::PENDING->value);
             $table->softDeletes();
             $table->timestamps();
         });

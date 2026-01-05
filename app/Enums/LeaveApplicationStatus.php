@@ -2,17 +2,15 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-/**
- * @method static static OptionOne()
- * @method static static OptionTwo()
- * @method static static OptionThree()
- */
-final class LeaveApplicationStatus extends Enum
+enum LeaveApplicationStatus: string
 {
-    const  accepted = 'accepted';
-    const  rejected = 'rejected';
-    const  pending = 'pending';
-    const  cancelled = 'cancelled';
+    case ACCEPTED = 'accepted';
+    case REJECTED = 'rejected';
+    case PENDING = 'pending';
+    case CANCELLED = 'cancelled';
+
+    public function isPending(): bool
+    {
+        return $this === self::PENDING;
+    }
 }

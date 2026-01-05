@@ -28,7 +28,7 @@ class LeaveApplicationFactory extends Factory
             'start_date' => $startDate,
             'end_date' => $endDate,
             'reason' => $this->faker->sentence(),
-            'status' => LeaveApplicationStatus::getRandomValue(),
+            'status' => $this ->faker->randomElement(LeaveApplicationStatus::cases()),
         ];
     }
 }

@@ -19,8 +19,8 @@ class LeaveApplicationFactory extends Factory
      */
     public function definition(): array
     {
-        $startDate = $this->faker->dateTime();
-        $daysDifference = $this->faker->numberBetween(0, 100);
+        $startDate = $this->faker->dateTimeBetween('now', '+30 days');
+        $daysDifference = $this->faker->numberBetween(0, 6);
         $endDate = Carbon::instance($startDate)->addDays($daysDifference);
 
         return [

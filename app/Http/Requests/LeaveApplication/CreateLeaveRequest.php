@@ -11,7 +11,7 @@ class CreateLeaveRequest extends BaseRequest
 
         return [
         'user_id'    => 'required|exists:users,id',
-        'start_date' => 'required|date',
+        'start_date' => 'required|date|after_or_equal:today',
         'end_date'   => 'required|date|after_or_equal:start_date',
         'reason'     => 'required|string|max:500',
         ];
@@ -24,6 +24,7 @@ class CreateLeaveRequest extends BaseRequest
             'user_id.exists' => __('validation.exists',['Attribute'=>__('user id')]),
             'start_date.required' => __('validation.required',['Attribute'=>__('start date')]),
             'start_date.date' => __('validation.date',['Attribute'=>__('start date')]),
+            'start_date.after_or_equal' => __('validation.after_or_equal',['Attribute'=>__('start date'),'date'=>__('today')]),
             'end_date.required' => __('validation.required',['Attribute'=>__('end date')]),
             'end_date.date' => __('validation.date',['Attribute'=>__('end date')]),
             'end_date.after_or_equal' => __('validation.after_or_equal',['Attribute'=>__('end date'),'date'=>__('start date')]),

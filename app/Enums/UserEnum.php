@@ -9,10 +9,9 @@ namespace App\Enums;
  */
 enum UserEnum : string
 {
-    case ADMIN = 'admin';
-    case USER = 'user';
-    case MANAGER = 'manager';
-    case EMPLOYEE = 'employee';
+    case ADMIN = '0';
+    case MANAGER = '1';
+    case EMPLOYEE = '2';
 
     public function isAdmin(): bool
     {
@@ -29,3 +28,4 @@ enum UserEnum : string
         return $this === self::MANAGER;
     }
 }
+

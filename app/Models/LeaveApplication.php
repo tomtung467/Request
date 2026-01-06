@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\LeaveApplicationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\Filterable;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 class LeaveApplication extends Model
 {
-    //\
-    use softDeletes,HasFactory,Filterable;
+    //
+    use softDeletes,HasFactory,Filterable, Userstamps;
     protected $table = 'leave_applications';
     protected $primaryKey = 'id';
     protected $fillable = [

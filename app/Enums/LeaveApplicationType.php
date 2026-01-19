@@ -9,9 +9,9 @@ namespace App\Enums;
  * @method static static OptionThree()
  */
 
-enum LeaveApplicationType: string
+enum LeaveApplicationType: int
 {
-    case SICK = 'sick';
-    case ANNUAL = 'annual';
-    case UNPAID = 'unpaid';
+    case SICK = 0;
+    case ANNUAL = 1;
+    case UNPAID = 2;
 }

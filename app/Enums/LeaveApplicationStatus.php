@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-enum LeaveApplicationStatus: string
+enum LeaveApplicationStatus: int
 {
-    case ACCEPTED = 'accepted';
-    case REJECTED = 'rejected';
-    case PENDING = 'pending';
-    case CANCELLED = 'cancelled';
+    case ACCEPTED = 0;
+    case REJECTED = 1;
+    case PENDING = 2;
+    case CANCELLED = 3;
 
     public function isPending(): bool
     {

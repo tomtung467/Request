@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date('end_date');
             $table->integer('total_days')->virtualAs('DATEDIFF(end_date, start_date) + 1');
             $table->string('reason');
-            $table->string('type')->default(LeaveApplicationType::ANNUAL->value);
-            $table->string('status')->default(LeaveApplicationStatus::PENDING->value);
+            $table->integer('type')->default(LeaveApplicationType::ANNUAL->value);
+            $table->integer('status')->default(LeaveApplicationStatus::PENDING->value);
             $table->softDeletes();
             $table->timestamps();
             $table->userstamps();

@@ -7,11 +7,11 @@ namespace App\Enums;
  * @method static static OptionTwo()
  * @method static static OptionThree()
  */
-enum UserEnum : string
+enum UserEnum : int
 {
-    case ADMIN = '0';
-    case MANAGER = '1';
-    case EMPLOYEE = '2';
+    case ADMIN = 0;
+    case MANAGER = 1;
+    case EMPLOYEE = 2;
 
     public function isAdmin(): bool
     {

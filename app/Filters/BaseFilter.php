@@ -61,8 +61,4 @@ public function apply(Builder $builder, array $filterFields, array $orderFields 
     /**
      * Get filters from request.
      */
-    protected function filters()
-    {
-        return $this->request->all();
-    }
 }

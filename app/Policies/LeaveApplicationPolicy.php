@@ -43,18 +43,6 @@ class LeaveApplicationPolicy extends BasePolicy
 
         return $isAdmin || ($isOwner && $isPending);
     }
-    public function viewAny(User $user): bool
-    {
-        if ($user->role && $user->role->isAdmin()) {
-            return true;
-        }
-
-        if ($user->role && $user->role->isManager()) {
-            return true;
-        }
-
-        return $user->role && $user->role->isEmployee();
-    }
 
     public function view(User $user, LeaveApplication $leaveApplication): bool
     {
@@ -72,21 +60,6 @@ class LeaveApplicationPolicy extends BasePolicy
         }
 
         return $leaveApplication->user_id === $user->id;
-    }
-    public function create(User $user, LeaveApplication $leaveApplication): bool
-    {
-        if ($user->role && ($user->role->isAdmin() || $user->role->isManager())) {
-            return true;
-        }
-        if ($user->role && ($user->role->isEmployee() && $leaveApplication->user_id === $user->id)) {
-            return true;
-        }
-        return false;
-    }
-    public function update(User $user, LeaveApplication $leaveApplication): bool
-    {
-        $isOwner = $leaveApplication->user_id === $user->id;
-        return $isOwner;
     }
     public function delete(User $user, LeaveApplication $leaveApplication): bool
     {

@@ -11,7 +11,7 @@ class UserFilter extends BaseFilter
      * @param string $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function name($value)
+    protected function FilterName($value)
     {
        return $this->builder->where('name', 'like', '%' . $value . '%');
 

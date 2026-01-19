@@ -22,7 +22,6 @@ class AuthController extends BaseAPIController
     public function register(CreateUserRequest $request)
     {
         $data = $request->validated();
-        $data['password'] = bcrypt($data['password']);
         $user = $this->userService->create($data);
 
         return $this->successResponse($user, 'User registered successfully', 201);
@@ -39,11 +38,6 @@ class AuthController extends BaseAPIController
         }
 
         $refreshToken = $this->createRefreshToken($this->guard()->user());
-        return $this->respondWithToken($token, $refreshToken);
-    }
-
-    private function respondWithToken($token, $refreshToken)
-    {
         return $this->successResponse([
             'access_token' => $token,
             'refresh_token' => $refreshToken,
@@ -51,6 +45,7 @@ class AuthController extends BaseAPIController
             'expires_in' => config('jwt.ttl') * 60
         ]);
     }
+
     public function profile()
     {
         try {
@@ -82,7 +77,12 @@ class AuthController extends BaseAPIController
             $user = $this->userService->getById($decoded['sub']);
             $token = $this->guard()->login($user);
             $refreshToken = $this->createRefreshToken($user);
-            return $this->respondWithToken($token, $refreshToken);
+            return $this->successResponse([
+                'access_token' => $token,
+                'refresh_token' => $refreshToken,
+                'token_type' => 'bearer',
+                'expires_in' => config('jwt.ttl') * 60
+            ]);
         } catch (JWTException $exception) {
             return $this->errorResponse('Invalid refresh token', 401);
         }

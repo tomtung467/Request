@@ -10,8 +10,6 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 
-use function Symfony\Component\Translation\t;
-
 class UserController extends BaseAPIController
 {
     protected $userService;
@@ -37,13 +35,12 @@ class UserController extends BaseAPIController
         if ($user) {
             return $this->successResponse($user);
         } else {
-            return $this->errorResponse(['message' => 'User not found'], 404);
+            return $this->errorResponse("User not found", 404);
         }
     }
     public function create(CreateUserRequest $request)
     {
         $validated = $request->validated();
-        $this -> authorize('create', User::class);
         $newUser = $this->userService->create($validated);
         return $this->successResponse($newUser, "User created successfully.",201);
     }
@@ -53,7 +50,6 @@ class UserController extends BaseAPIController
         if (!$user) {
             return $this->errorResponse(['message' => 'User not found'], 404);
         }
-        $this->authorize('update', $user);
         $validated = $request->validated();
         // Filter out null values to preserve existing data for fields not provided
         $dataToUpdate = array_filter($validated, fn($value) => $value !== null);
@@ -64,10 +60,8 @@ class UserController extends BaseAPIController
     {
         $user = $this->userService->getById($id);
         if (!$user) {
-            return $this->errorResponse(['message' => 'User not found'], 404);
+            return $this->errorResponse("User not found", 404);
         }
-
-        $this->authorize('delete', $user);
 
         $result = $this->userService->delete($id);
         return $this->successResponse(null, "User deleted successfully.",200);

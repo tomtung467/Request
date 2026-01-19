@@ -8,6 +8,7 @@ use App\Traits\ApiResponseTrait;
 use App\Http\Requests\LeaveApplication\CreateLeaveRequest;
 use App\Http\Requests\LeaveApplication\UpdateLeaveRequest;
 use App\Filters\LeaveApplicationFilter;
+use App\Http\Requests\LeaveApplication\FilterLeaveApplicationRequest;
 use App\Http\Requests\LeaveApplication\RejectLeaveApplicationRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\LeaveApplicationResource;
@@ -24,24 +25,19 @@ class LeaveApplicationController extends BaseAPIController
         $this->middleware('auth:api');
 
     }
-    public function get(Request $request)
+    public function get(FilterLeaveApplicationRequest $request)
     {
-        $this->authorize('viewAny', LeaveApplication::class);
-        $filter = new LeaveApplicationFilter($request);
-        $leaveApplications = $this->leaveApplicationService->getAllWithFilter( $filter);
+        $leaveApplications = $this->leaveApplicationService->getAllWithFilter($request);
         return $this->successResponse($leaveApplications);
     }
     public function list()
     {
-        $this->authorize('viewAny', LeaveApplication::class);
         $leaveApplications = $this->leaveApplicationService->getPaginated();
         return $this->successResponse(LeaveApplicationResource::collection($leaveApplications));
     }
     public function create(CreateLeaveRequest $request)
     {
         $validated = $request->validated();
-        $leaveApplication = new LeaveApplication($validated);
-        $this->authorize('create', $leaveApplication);
         $leaveApplication = $this->leaveApplicationService->create($validated);
         return $this->successResponse($leaveApplication, 201);
     }
@@ -49,7 +45,6 @@ class LeaveApplicationController extends BaseAPIController
     {
         $leaveApplication = $this->leaveApplicationService->getById($id);
         if ($leaveApplication) {
-            $this->authorize('view', $leaveApplication);
             return $this->successResponse($leaveApplication);
         } else {
             return $this->errorResponse('Leave Application not found', 404);
@@ -59,7 +54,6 @@ class LeaveApplicationController extends BaseAPIController
     {
         $leaveApplication = $this->leaveApplicationService->getById($id);
         $validated = $request->validated();
-        $this->authorize('update', $leaveApplication);
         $leaveApplication = $this->leaveApplicationService->update($id, $validated);
         if ($leaveApplication) {
             return $this->successResponse($leaveApplication);
@@ -73,7 +67,6 @@ class LeaveApplicationController extends BaseAPIController
         if (!$leaveApplication) {
             return $this->errorResponse('Leave Application not found', 404);
         }
-        $this->authorize('delete', $leaveApplication);
         $result = $this->leaveApplicationService->delete($id);
         if ($result) {
             return $this->successResponse(null, "Leave Application deleted successfully.");
@@ -87,7 +80,6 @@ class LeaveApplicationController extends BaseAPIController
         if (!$leaveApplication) {
             return $this->errorResponse('Leave Application not found', 404);
         }
-        $this->authorize('approve', $leaveApplication);
 
         $leaveApplication = $this->leaveApplicationService->approve($id);
         if ($leaveApplication) {
@@ -104,8 +96,6 @@ class LeaveApplicationController extends BaseAPIController
             return $this->errorResponse('Leave Application not found', 404);
         }
 
-        $this->authorize('reject', $leaveApplication);
-
         $rejected = $this->leaveApplicationService->reject($id);
         if ($rejected) {
             return $this->successResponse($rejected, "Leave Application rejected successfully.");
@@ -119,8 +109,6 @@ class LeaveApplicationController extends BaseAPIController
         if (!$leaveApplication) {
             return $this->errorResponse('Leave Application not found', 404);
         }
-
-        $this->authorize('cancel', $leaveApplication);
 
         $cancelled = $this->leaveApplicationService->cancel($id);
         if ($cancelled) {

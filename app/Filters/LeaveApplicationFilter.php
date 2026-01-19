@@ -2,12 +2,11 @@
 namespace App\Filters;
 use App\Filters\BaseFilter;
 use App\Enums\LeaveApplicationStatus;
-use App\Models\LeaveApplication;
-use Illuminate\Http\Request;
+use App\Http\Requests\LeaveApplication\FilterLeaveApplicationRequest;
 
 class LeaveApplicationFilter extends BaseFilter
 {
-    public function __construct(Request $request)
+    public function __construct(FilterLeaveApplicationRequest $request)
     {
         parent::__construct($request);
     }

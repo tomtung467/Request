@@ -5,6 +5,8 @@ use App\Repositories\LeaveApplication\ILeaveApplicationRepository;
 use App\Services\LeaveApplication\ILeaveApplicationService;
 use App\Filters\LeaveApplicationFilter;
 use App\Enums\LeaveApplicationStatus;
+use App\Http\Requests\LeaveApplication\FilterLeaveApplicationRequest;
+use Illuminate\Http\Request;
 class LeaveApplicationService extends BaseService implements ILeaveApplicationService
 {
     protected $leaveApplicationRepository;
@@ -15,8 +17,9 @@ class LeaveApplicationService extends BaseService implements ILeaveApplicationSe
         $this->leaveApplicationRepository = $leaveApplicationRepository;
     }
 
-    public function getAllWithFilter(LeaveApplicationFilter $filter)
+    public function getAllWithFilter(FilterLeaveApplicationRequest $request)
     {
+        $filter = new LeaveApplicationFilter($request);
         $user = auth()->guard()->user();
         $query = $this->repository->visibleTo($user)->with('user');
 

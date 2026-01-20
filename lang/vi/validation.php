@@ -166,6 +166,7 @@ return [
     'url' => 'Trường dữ liệu :attribute phải là một URL hợp lệ.',
     'ulid' => 'Trường dữ liệu :attribute phải là một ULID hợp lệ.',
     'uuid' => 'Trường dữ liệu :attribute phải là một UUID hợp lệ.',
+    'not_found' => 'Không tìm thấy :attribute được chỉ định.',
 
     /*
     |--------------------------------------------------------------------------

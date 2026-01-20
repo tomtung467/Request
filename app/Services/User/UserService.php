@@ -18,13 +18,13 @@ class UserService extends BaseService implements IUserService
     public function getAll()
     {
         $user = auth()->guard()->user();
-        $data = $this->repository->visibleTo($user)->with('leaveApplications')->get();
+        $data = $this->repository->VisibleTo($user)->with('leaveApplications')->get();
         return $data;
     }
     public function getPaginated($perPage = 10)
     {
         $user = auth()->guard()->user();
-        $data = $this->repository->visibleTo($user)->with('leaveApplications')->paginate($perPage);
+        $data = $this->repository->VisibleTo($user)->with('leaveApplications')->paginate($perPage);
         return $data;
     }
 }

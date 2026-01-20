@@ -17,7 +17,7 @@ class LeaveApplicationRepository extends BaseRepository implements ILeaveApplica
         return LeaveApplication::class;
     }
 
-    public function visibleTo(User $user): Builder
+    public function VisibleTo(User $user): Builder
     {
         $query = $this->model->newQuery();
 

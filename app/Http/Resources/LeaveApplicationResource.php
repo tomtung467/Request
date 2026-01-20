@@ -18,6 +18,7 @@ class LeaveApplicationResource extends JsonResource
         [
             'id' => $this->id,
             'reason' => $this->reason,
+            'days' => $this->total_days,
             'status' => $this->status,
             'user' => new UserResource($this->whenLoaded('user')),
         ];

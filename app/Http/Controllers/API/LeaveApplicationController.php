@@ -25,7 +25,7 @@ class LeaveApplicationController extends BaseAPIController
     public function get(FilterLeaveApplicationRequest $request)
     {
         $leaveApplications = $this->leaveApplicationService->getAllWithFilter($request);
-        return $this->successResponse($leaveApplications);
+        return $this->successResponse(LeaveApplicationResource::collection($leaveApplications));
     }
     public function list()
     {
@@ -55,7 +55,6 @@ class LeaveApplicationController extends BaseAPIController
     }
     public function delete($id)
     {
-        $leaveApplication = $this->leaveApplicationService->getById($id);
         $result = $this->leaveApplicationService->delete($id);
         if ($result) {
             return $this->successResponse(null, "Leave Application deleted successfully.");

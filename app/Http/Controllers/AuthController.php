@@ -32,8 +32,8 @@ class AuthController extends BaseAPIController
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        if (! $token = $this->guard()->attempt($credentials)) {
+        $token = $this->guard()->attempt($credentials);
+        if (!$token) {
             return $this->errorResponse('Unauthorized', 401);
         }
 
@@ -94,13 +94,4 @@ class AuthController extends BaseAPIController
     $payload['exp'] = time() + config('jwt.refresh_ttl') * 60;
     return JWTAuth::manager()->getJWTProvider()->encode($payload);
     }
-
-    /**
-     * @return \Tymon\JWTAuth\JWTGuard
-     */
-    private function guard()
-    {
-        return Auth::guard('api');
-    }
-
 }

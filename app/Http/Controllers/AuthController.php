@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Models\User;
 use App\Services\User\UserService;
-use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Traits\ApiResponseTrait;
@@ -31,13 +30,18 @@ class AuthController extends BaseAPIController
         $credentials = request()->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'remember' => 'boolean'
         ]);
-        $token = $this->guard()->attempt($credentials);
+        $token = $this->guard()->attempt([
+        'email' => $credentials['email'],
+        'password' => $credentials['password'],
+        ]);
         if (!$token) {
             return $this->errorResponse('Unauthorized', 401);
         }
-
-        $refreshToken = $this->createRefreshToken($this->guard()->user());
+        $user = $this->guard()->user();
+        $remember = $credentials['remember'] ?? false;
+        $refreshToken = $this->createRefreshToken($user, $remember);
         return $this->successResponse([
             'access_token' => $token,
             'refresh_token' => $refreshToken,
@@ -87,11 +91,28 @@ class AuthController extends BaseAPIController
             return $this->errorResponse('Invalid refresh token', 401);
         }
     }
-    private function createRefreshToken(User $user)
+    private function createRefreshToken(User $user, $remember = false)
     {
+         $ttl = $remember
+        ? config('jwt.refresh_ttl')        // ví dụ 14 ngày
+        : config('jwt.refresh_ttl_short'); // ví dụ 1 ngày
     $payload = $user->getJWTRefreshcustomClaims();
         // Thêm thời gian hết hạn (exp)
-    $payload['exp'] = time() + config('jwt.refresh_ttl') * 60;
+    $payload['exp'] = time() + $ttl * 60;
     return JWTAuth::manager()->getJWTProvider()->encode($payload);
+    }
+    private function guard()
+    {
+        return auth()->guard('api');
+    }
+    public function forgetPassword()
+    {
+        try {
+            $user = $this->guard()->user();
+            // Logic để gửi email đặt lại mật khẩu
+            return $this->successResponse(['message' => 'Password reset link sent to your email']);
+        } catch (JWTException $e) {
+            return $this->errorResponse('Unauthorized', 401);
+        }
     }
 }

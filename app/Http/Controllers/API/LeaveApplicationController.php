@@ -64,7 +64,6 @@ class LeaveApplicationController extends BaseAPIController
     }
     public function approve($id)
     {
-        $leaveApplication = $this->leaveApplicationService->getById($id);
         $leaveApplication = $this->leaveApplicationService->approve($id);
         if ($leaveApplication) {
             return $this->successResponse($leaveApplication, "Leave Application approved successfully.");

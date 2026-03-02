@@ -6,7 +6,6 @@ use App\Services\LeaveApplication\ILeaveApplicationService;
 use App\Filters\LeaveApplicationFilter;
 use App\Enums\LeaveApplicationStatus;
 use App\Http\Requests\LeaveApplication\FilterLeaveApplicationRequest;
-use Illuminate\Http\Request;
 class LeaveApplicationService extends BaseService implements ILeaveApplicationService
 {
     protected $leaveApplicationRepository;

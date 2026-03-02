@@ -121,6 +121,7 @@ return [
     */
 
     'refresh_ttl' => env('JWT_REFRESH_TTL', 20160),
+    'refresh_ttl_short' => env('JWT_REFRESH_TTL_SHORT', 1440), // 1 day
 
     /*
     |--------------------------------------------------------------------------

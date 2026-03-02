@@ -63,6 +63,8 @@ class AuthController extends BaseAPIController
     }
     public function logout()
     {
+        $token = JWTAuth::parseToken();
+        JWTAuth::invalidate($token);
         $this->guard()->logout();
 
         return $this->successResponse(['message' => 'Successfully logged out']);

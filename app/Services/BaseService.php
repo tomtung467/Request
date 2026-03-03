@@ -1,10 +1,10 @@
 <?php
 namespace App\Services;
-use App\Traits\ApiResponseTrait;
+//use App\Traits\ApiResponseTrait;
 
 abstract class BaseService
 {
-    use ApiResponseTrait;
+    //use ApiResponseTrait;
     protected $repository;
     public function __construct($repository)
     {
